@@ -1,0 +1,366 @@
+1) I'd like to make a simple, freeware screensaver that lets you
+   display a set of images (like Wallmaster), but also lets you
+   display quotes (e.g. Scripture verses) from a text file (as
+   QLiner's Quotes does) over them. Yes, there are lots of canned
+   sunset-and-verse screensavers, but I want one where you can provide
+   your own pictures and text. If you know of one already, let me know
+   please. If I do this myself I'll probably use OpenGL (via GLUT,
+   DemoGL, or some other higher level library).
+
+   - Enhancement: slow zooming in/out, like on the Mac screensaver.
+    (at user option)
+
+2) I'd like to make another screensaver (maybe combined with the
+   above) that displays images of your choice on the faces of a
+   folding cube (a.k.a. flip cube). My parents once gave me a flip
+   cube of pictures from Kenya, which I have scanned and would like to
+   turn into a screensaver. It should rotate and fold by itself, to
+   display the different pictures (but try to get them
+   right-side-up!). On the other hand, it would be fun to control it
+   from the keyboard. I suppose if you wanted more than 12 pictures,
+   you could have the cube change its skin on the side that's away
+   from "the camera"; that way you could display as many photos in
+   sequence as you liked.
+
+What library to use?
+Requirements: for these things, I don't need much. But I would like cross-
+platform capability (though that can be sacrificed).
+[And I would like GUI support, so the screen saver can be configured
+(although maybe this isn't going to work cross-platform? ok never mind).]
+And it would be nice to have help with the rotation: some kind of quaternion
+routines since they give better composition-of-rotation I believe.
+
+Options:
+OpenGL - probably more work than necessary, since it's so low-level.
+GLUT - sounds nice and simple, and cross-platform; but there's a possibility
+  that it will be too restrictive. +: widely used.
+DemoGL - sounds more featureful than GLUT, and is cross-platform (right?),
+  plus you can program it with scripting (do I care about that?)
+Coin - sounds very featureful - based on the impressive-sounding "Open Inventor".
+  But maybe too complex. And I don't know of any examples of screen savers.
+
+The above seem to use C/C++. Another option is to use Java bindings, such as:
+GL4Java (www.jausoft.com - OpenGL 1.3 and GLU 1.2) - fairly stable and mature.
+
+
+
+Resources:
+http://cityintherain.com/howtoscr.html - Writing an OpenGL Screensaver for Windows
+http://nomad.openglforums.com/guest003.html - OPENGL WINDOWS SCREEN SAVER TUTORIAL (with source)
+(may be somewhat .Net-specific)
+http://nehe.gamedev.net/ - famous OpenGL Tutorials. Note that I have Java (GL4Java)
+ versions of these.
+http://chbg.sourceforge.net/ - an open source example of a screensaver, with a nice
+configuration GUI, but may be only for X11.  Uses Gtk+ & stuff like that.
+http://kevinkelley.mystarband.net/java/sava.html - gives code to make a java
+  screensaver for windows.
+
+Look on my CD backup of ls-huttarl; I have some notes there and maybe code
+for OpenGL stuff and for this folding-cube program.
+I wrote some stuff for texture-mapping cubes, including reading those
+textures from files at run-time (I believe).
+[I should put some of those programs on my web site. That would be fun.]
+
+One idea would be to keep an array/list of valid positions at which the cube
+can be, showing a picture right-side-up. This includes orientation of the whole,
+plus foldedness.
+Say there are 12 of these (or 8? I don't know how many pictures are on one of
+those cubes.)
+Anyway, for each configuration, provide a path to some other configurations -
+(either all of them, or maybe just the adjacent ones).
+A path would consist of folding and/or rotating - possibly more than one
+of these, composed. (But we should be able to do folding independently of
+rotating, fortunately.)
+
+It would be nice to be able to have configurable landscape/portrait mode for
+the 2x4-block pictures. Maybe autodetect based on the picture dimensions (that
+would be easy). However it would make the above more complicated - knowing how
+to display each face so that it's right-side-up. Not too bad though - you can
+just compose the usual rotation with an extra 90-degree rotation around the
+new z-axis if necessary (God willing).
+
+Config options:
+- y/n: always fold between pictures. (I.e. don't ever just rotate the cube
+ to get to the next picture)
+- path through pix: 1) random 2) sequential
+- amount of delay between changes of pic, if any
+- list of pics (if more than six, cube will change an invisible face)
+  (Maybe get this from a text file, to reduce GUI programming?)
+- resize image to face size?
+  - y/n: preserve aspect ratio of pix?
+ (depending on the above, there should be some background
+  color or texture for the cubefaces exposed)
+- cube face color (shows when a face has no picture or picture doesn't
+     cover whole face)
+- cube size
+- y/n: highlight "hinges" (e.g. with a yellow cylinder?)
+    (useful for debugging; fun for seeing how a FlipCube works)
+- y/n: debug mode (showing numbers or the like on top of the images
+       to identify cubelets & faces)
+- rot/fold speed
+- process niceness? (priority)
+- (later) - different mode, where cube doesn't stay connected but breaks apart.
+  Same as before, but now has different possible paths from one picture to another.
+  E.g. subcubes explode (gently) out from center, rotate, and come back together
+  to show a different pic.
+- Bonus: allow a keyboard control mode. keys for rotating, folding in various
+ ways (fold in/out vertical, fold in/out horizontal...) etc.
+
+Must be able to load several formats, at least incl. bmp, gif, jpg, png.
+
+Maybe the folding/rotating paths could be loaded at run time from a text file.  Fun! :-)
+
+Possible feature: debug mode, where all cubelet faces are labeled with
+coordinates, and perhaps also labeled with something indicating which pic
+they go with and what part of it. Ah, display the normal pictures as usual,
+but put the coordinate labels on top of them (black w/ white border or sthg).
+
+
+Positions: there are 9 on my Kenya cube.
+camels
+elephant
+ostrich
+sailboat
+hippo/fish
+nat'l park
+coat of arms (wide)
+small scale map (wide)
+KENYA map (wide)
+
+Note, this is one possible configuration; there may be others.
+In this cube, the outer faces are all square pictures; the inner ones
+are all wide. But I think you could do all square if you wanted.
+Actually, no, you couldn't, unless you just treat the wide ones
+as two squares side by side. And those squares can't be displayed
+separately (as squares).
+
+
+Java quaternion classes: do a google searche on java quaternion class.
+http://w3.one.net/~monkey/java/quaternion/
+http://java.freehep.org/lib/freehep/api/org/freehep/graphics3d/Quaternion.html
+http://jsci.sourceforge.net/api/JSci/maths/Quaternion.html
+JSci has negate, norm, multiply...
+
+http://www.graphcomp.com/info/specs/java3d/j3dapi/java.vecmath.Quat4d.html
+(the "java." may be a typo for "javax.")
+Java3D has quaternions, including methods conjugate, invert, interpolate,
+mul, mulInverse, normalize, and set (angle or matrix).
+Well, this may require a special library: Java3D or javax.
+
+Maybe I should use Java3D after all?  I'm not going to be doing any
+platform-specific optimizations. But maybe I'll be doing some graphics-
+operation-specific optimizations. Hmm. I'd certainly rather use an open
+standard (GL4Java) than something from Sun that might not be open (Java3D).
+
+Ack! No, if I use Java3D, then I can't give my screensaver to others,
+unless they also install Java3D (or I agree to Sun's license agreements).
+Well, it is a free download for them... Oh wait, I guess the license
+agreement isn't so bad. And it does let me distribute Java3D with
+my program. But I don't know that I want to. I can just point people
+to download it.
+
+
+Notes on Java3D
+===============
+- I'm going through the tutorial at My Documents/programming/graphics/j3d_tutorial.
+
+- SimpleUniverse is the way I probably want to go. It's much simpler to program,
+  and the only cost is that you can't have multiple views on the universe (apparently).
+  Which I don't need.
+
+
+Scene graph design for FlipCube
+===============================
+What's the best scene graph for the folding cube?
+One idea would be:
+
+BG
+|
+TG     // the orientation of the whole cube
+| \
+TG TG   // rotating the two halves of the cube away from e.o.
+|\  |\
+TgTgTgTg  // subdividing the halves...
+|\|\|\|\|\
+Tg*8         // subdividing the quarters.
+||||
+Cube*8
+
+This might make it easy from a programming point of view, (though
+maybe a little less efficient: but the tutorial says it's not worth
+it to reduce the TG's in a scene graph at the cost of maintainability;
+it's the number of Shape3D objects that matters) because I think the
+rotation at each level is going to be either the same or similar
+across that level, for each type of fold.
+
+
+Another design, with 9 TG's instead of 15, would be (and of course 9
+is the minimum, since every cubelet can have a separate rotation,
+and we want one for the orientation of the whole):
+
+   BG
+   |
+   TG     // the orientation of the whole cube
+  /  \
+TG    TG   // orientation of two "strands"
+| \   | \
+TG Cb TG Cb
+| \   | \
+TG Cb TG Cb
+| \   | \
+TG Cb TG Cb
+  \     \
+   Cb    Cb
+
+The reason for this is that the cube is sort of a ring: each
+cubelet is connected to two others. So this structure at least
+mimics the two "strands" of four, although we can't connect them
+at top and bottom.
+
+Another alternative would just be to make the eight TG's all children
+of the first TG, and then compute the transformations of all TG's
+by hand. But I think the two-strand design above is pretty good.
+
+
+  +   +
+ /|  /|
++ | + |
+| +-|-+
+|   |
++---+
+
+Canonical orientation:
+======================
+ostrich on +x face,
+camel on +y face.
+elephant on +z face.
+-x: nat'l park.
+-y: hippo.
+-z: boat.
+Inside:
+Nairobi map on +/-x face.
+Kenya map on +/-y face.
+Coat of arms on +/-z face.
+
+
+Labeling cubelets:
+======================
+  c   d
+ /|  /|
+g | h |
+| a-|-b
+|   |
+e---f
+
+Or,
+a=000
+b=001
+c=010
+  ...
+  zyx
+
+In our cubelets array, adjacent cubelets in the array have to be
+connected to each other; so we'll go
+a, c, g, e, f, h, d, b
+I.e. cubelets[0] is a, etc.
+
+
+Connections:
+======================
+a-c: -x connection (b-d: +x)
+c-g: +y (d-h: +y)
+g-e: -x (h-f: +x)
+e-f: +z (a-b: -z)
+
+   c     d
+  -/    -/
+ - /   - /
+g  /  h  /
+/  a||/||b
+/     /
+/     /
+e|||||f
+
+In the above picture, I think the -, |, and / characters indicate the orientation
+of the hinge that joins each pair of cubes; e.g. c is joined to g by a hinge
+parallel to the x axis.
+
+We number the hinges the same as their corresponding cubelets.
+Thus hinge 0 is the hinge "before" cubelet 0 in the ring, i.e. cubelet a.
+Hinge 1 is between a and c, etc.
+
+
+States:
+
+We can display the FlipCube in any of several *states* (at least 9).
+A state is a configuration of the cube, consisting of its
+whole orientation (3d rotation) and the degree of (un)folding of
+each of its hinges.
+E.g. state 0 consists of no rotation and no folding of hinges;
+this displays the front face of the cube.
+State 1 consists of a 90 degree rotation around the Y axis,
+and no hinge folding; this displays the right face of the cube.
+State 6 migh consist of a 90-degree rotation around the X axis,
+and an unfolding of hinges {a-c, b-d, e-g, f-h} to display one
+of the wide faces.
+
+We can transition from one state to another by incrementally
+(un)folding hinges and rotating the whole cube. In our array
+of states, we keep track of which states are directly reachable
+from which others.
+
+
+Faces/facelets/cubelets:
+Create faces, then cubelets, and facelets for each cubelet.
+Facelets belong to cubelets, but have a reference to their parent face,
+and get their texture image from it.
+Cubelets don't belong to faces.
+
+To put multiple textures on a Cubelet (a type of Box)'s Appearance,
+we may have to use setTextureUnitState() with an array of texture thingies.
+See e.g. file:///C:/lib/java/j2sdk1.4.2_05/demo/java3d/TextureTest/MultiTextureTest_plugin.html
+although this is an example of multitexturing (layering textures).
+This example: file:///C:/lib/java/j2sdk1.4.2_05/demo/java3d/TextureTest/TextureImage_plugin.html
+shows a cube with a (single) Texture on it.
+Well, using the textureUnitState array is one way to do it. The thread at
+http://www.mail-archive.com/java3d-interest@java.sun.com/msg27347.html
+says this is the complicated way; they say it's easier to use a separate Shape
+for each texture. But then I'd have to manage the six facelets of a cube as
+geometric objects, rather than just a box.
+This modeling of faces as Shape3Ds is done, e.g. in j3d_tutorial/texture/SimpleTextureApp.java,
+with planes made using "QuadArray". TexturedPlaneApp.java demonstrates creating multiple
+Planes each with its own texture.
+
+Thus it is the Facelet class that would extend Shape3D (or a subclass thereof).
+Facelets would have refs to faces, which ref to images.
+Images (think of a good class name, e.g. Pictures or FCPictures) would be created
+separately from Faces; there might be more images than faces. [Why? Might some
+faces share images?]
+
+Well, the problem with that is that I'd probably need six TG's for each cubelet!
+Just in order to handle the faces. That seems like a lot. Maybe it would be
+simpler after all to create a Cube class with textureUnitState array and use that.
+
+
+
+Idea: for now, don't worry so much about autopiloted animation. Instead, do
+movement in response to keyboard (or mouse) input. (I.e., interaction.)
+E.g. keys 1-9 mean go to state 1-9. Arrow keys rotate 90 degrees.
+This will make debugging easier. Autopilot animation can be added later.
+See j3d_tutorial/Interaction/DoorApp and KeyNavigatorApp for examples.
+
+
+Optimization: when two faces are completely flush against each other
+(which will only occur when certain hinges are at 0% or 100%), "turn off"
+display of those faces.
+
+Extra: a little light that orbits around the FlipCube, like in the
+light-and-torus screensaver. Just for extra zing.
+
+Another extra: an alternative way of visualizing the topology and folding
+of the flipcube. E.g. start by showing the hinges as bright red cylinders.
+(Make this a part of the cubelet display object.) This could help in debugging.
+Maybe even replace the cubes with something skinnier that makes the connections
+between them more obvious.
+
+

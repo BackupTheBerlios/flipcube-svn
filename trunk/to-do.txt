@@ -1,0 +1,19 @@
+* Have each Face load an Image.
+
+* Have each Cubelet create Facelets.
+  Link each Facelet to the correct Face (non-trivial).
+  
+* Make each Facelet display only its own portion, of the right picture.
+
+* Complete the code for the transformation of each cubelet from
+ the previous one, based on the current state. Test this
+ with various states. I.e. finish FlipCube.getRotation().
+ (Rename it to getTransform()?)
+
+* put some of the code from Facelet into Face.
+  E.g. image and image scale (2x2 v.s 2x4 facelets) are properties of Face.
+
+x Will efficiency be better if my textures have dimensions that are
+  a power of 2?  If so maybe I should scale my textures accordingly.
+  I've done so, have put them in images/256. Need to access them.
+
