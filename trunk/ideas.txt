@@ -340,11 +340,16 @@ Just in order to handle the faces. That seems like a lot. Maybe it would be
 simpler after all to create a Cube class with textureUnitState array and use that.
 Oh, wait, it turns out that the Box class has a getShape(LEFT/TOP/...) method
 which returns any of the six faces of the Box, and this "allows users to
-modify the appearance or geometry of individual parts." Cool! Hope it
+modify the appearance or geometry of individual parts." Cool! Hopefully it
 lets me modify their textures.
 
+OO graph:
+Cube has: 9 Faces, 8 Cubelets.
+Face has: width & height, Image, Image width & height, orientation, ...?
+Cubelet has: 6 Facelets, ...
+Facelet has: ref 1 Face, orientation, x & y offset (int: num of facelets offset) ...
 
-Idea: for now, don't worry so much about autopiloted animation. Instead, do
+User input: at first, don't worry about autopiloted animation. Instead, do
 movement in response to keyboard (or mouse) input. (I.e., interaction.)
 E.g. keys 1-9 mean go to state 1-9. Arrow keys rotate 90 degrees.
 This will make debugging easier. Autopilot animation can be added later.
