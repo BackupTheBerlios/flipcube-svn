@@ -1,23 +1,17 @@
-1) I'd like to make a simple, freeware screensaver that lets you
-   display a set of images (like Wallmaster), but also lets you
-   display quotes (e.g. Scripture verses) from a text file (as
-   QLiner's Quotes does) over them. Yes, there are lots of canned
-   sunset-and-verse screensavers, but I want one where you can provide
-   your own pictures and text. If you know of one already, let me know
-   please. If I do this myself I'll probably use OpenGL (via GLUT,
-   DemoGL, or some other higher level library).
+Ideas
 
-   - Enhancement: slow zooming in/out, like on the Mac screensaver.
-    (at user option)
+This file is a log of ideas as they occurred. They may or may not still
+be relevant to the current state of FlipCube.
+Generally, information from this file that is still relevant should
+be copied over to a file called "Design" and modified as necessary.
 
-2) I'd like to make another screensaver (maybe combined with the
-   above) that displays images of your choice on the faces of a
-   folding cube (a.k.a. flip cube). My parents once gave me a flip
-   cube of pictures from Kenya, which I have scanned and would like to
+I'd like to make a screensaver that displays images of your choice on
+   the faces of a folding cube (a.k.a. flip cube). My parents once gave me
+   a flip cube of pictures from Kenya, which I have scanned and would like to
    turn into a screensaver. It should rotate and fold by itself, to
    display the different pictures (but try to get them
    right-side-up!). On the other hand, it would be fun to control it
-   from the keyboard. I suppose if you wanted more than 12 pictures,
+   from the keyboard. I suppose if you wanted more than 9 pictures,
    you could have the cube change its skin on the side that's away
    from "the camera"; that way you could display as many photos in
    sequence as you liked.
@@ -80,10 +74,8 @@ just compose the usual rotation with an extra 90-degree rotation around the
 new z-axis if necessary (God willing).
 
 Config options:
-- y/n: always fold between pictures. (I.e. don't ever just rotate the cube
- to get to the next picture)
-- path through pix: 1) random 2) sequential
-- amount of delay between changes of pic, if any
+- path through pictures: 1) random 2) sequential
+- amount of delay between changes of pic
 - list of pics (if more than six, cube will change an invisible face)
   (Maybe get this from a text file, to reduce GUI programming?)
 - resize image to face size?
@@ -105,7 +97,12 @@ Config options:
   to show a different pic.
 - Bonus: allow a keyboard control mode. keys for rotating, folding in various
  ways (fold in/out vertical, fold in/out horizontal...) etc.
-
+- y/n: always fold between pictures. (I.e. don't ever just rotate the cube
+ to get to the next picture)
+- y/n: should camera move? If so, probably want to keep it within 10 degrees or so,
+  so that the pictures can still face toward a fixed point, and the camera will
+  still be able to see those pix.
+  
 Must be able to load several formats, at least incl. bmp, gif, jpg, png.
 
 Maybe the folding/rotating paths could be loaded at run time from a text file.  Fun! :-)
@@ -151,6 +148,7 @@ Maybe I should use Java3D after all?  I'm not going to be doing any
 platform-specific optimizations. But maybe I'll be doing some graphics-
 operation-specific optimizations. Hmm. I'd certainly rather use an open
 standard (GL4Java) than something from Sun that might not be open (Java3D).
+[Later note: Java3D is now open source.]
 
 Ack! No, if I use Java3D, then I can't give my screensaver to others,
 unless they also install Java3D (or I agree to Sun's license agreements).
@@ -181,7 +179,7 @@ TG     // the orientation of the whole cube
 TG TG   // rotating the two halves of the cube away from e.o.
 |\  |\
 TgTgTgTg  // subdividing the halves...
-|\|\|\|\|\
+|\|\|\|\
 Tg*8         // subdividing the quarters.
 ||||
 Cube*8
@@ -195,7 +193,7 @@ across that level, for each type of fold.
 
 
 Another design, with 9 TG's instead of 15, would be (and of course 9
-is the minimum, since every cubelet can have a separate rotation,
+TG's is the minimum, since every cubelet can have a separate rotation,
 and we want one for the orientation of the whole):
 
    BG
@@ -340,7 +338,10 @@ faces share images?]
 Well, the problem with that is that I'd probably need six TG's for each cubelet!
 Just in order to handle the faces. That seems like a lot. Maybe it would be
 simpler after all to create a Cube class with textureUnitState array and use that.
-
+Oh, wait, it turns out that the Box class has a getShape(LEFT/TOP/...) method
+which returns any of the six faces of the Box, and this "allows users to
+modify the appearance or geometry of individual parts." Cool! Hope it
+lets me modify their textures.
 
 
 Idea: for now, don't worry so much about autopiloted animation. Instead, do

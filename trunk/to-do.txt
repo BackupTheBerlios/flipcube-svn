@@ -1,3 +1,5 @@
+(Major items will need to be moved to the task list on berlios.)
+
 * Have each Face load an Image.
 
 * Have each Cubelet create Facelets.
@@ -17,3 +19,8 @@ x Will efficiency be better if my textures have dimensions that are
   a power of 2?  If so maybe I should scale my textures accordingly.
   I've done so, have put them in images/256. Need to access them.
 
+- make a nicer build process, e.g. an Ant build file.
+
+- figure out how to build a screen saver executable
+
+- figure out about using Java Web Start
