@@ -1,0 +1,7 @@
+Project Status
+
+updated Nov. 1, 2004
+
+Maybe 50% of the code is written, but currently nothing works because classes are being reorganized.
+
+(See also http://developer.berlios.de/news/?group_id=2248)
