@@ -21,6 +21,8 @@ x Will efficiency be better if my textures have dimensions that are
 
 - make a nicer build process, e.g. an Ant build file.
 
-- figure out how to build a screen saver executable
+- figure out how to build a screen saver executable for Windows
 
 - figure out about using Java Web Start
+
+* look up what we need to do to comply with GPL, e.g. include a copy of the GPL license.
